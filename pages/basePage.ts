@@ -1,15 +1,15 @@
 import { Locator, Page } from "@playwright/test";
 
 export class BasePage {
- page: Page
-private topNavigationLocators: Locator
+    page: Page;
+    private topNavigationLocators: Locator;
 
-constructor(page: Page) {
-    this.page = page;
-    this.topNavigationLocators = page.locator('ul[class="navbar-nav"]');
-}
+    constructor(page: Page) {
+        this.page = page;
+        this.topNavigationLocators = page.locator('ul[class="navbar-nav"]');
+    }
 
-async clickOnNavLink(linkText: string){
-    await this.topNavigationLocators.getByText(linkText).click();
-}
+    async clickOnNavLink(linkText: string): Promise<void> {
+        await this.topNavigationLocators.getByText(linkText).click();
+    }
 }
