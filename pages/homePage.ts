@@ -7,6 +7,7 @@ export class HomePage extends BasePage {
     private Footer: Locator;
     private subscriptionEmailField: Locator;
     private subscriptionButton: Locator
+    private productsButton: Locator;
    
     constructor(page: Page) {
         super(page);
@@ -46,5 +47,9 @@ async verifySubscriptionSuccessMessage(): Promise<void> {
     await successMessage.waitFor({ state: 'visible', timeout: 10000 });
     await expect(successMessage).toBeVisible();
     await expect(successMessage).toContainText('You have been successfully subscribed!');
+  }
+async clickProductsButton(): Promise<void> {
+    this.productsButton = this.page.getByRole('link', { name: 'Products' });
+    await this.productsButton.click();
   }
 }
