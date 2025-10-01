@@ -8,6 +8,7 @@ export class HomePage extends BasePage {
     private subscriptionEmailField: Locator;
     private subscriptionButton: Locator
     private productsButton: Locator;
+    private cartButton: Locator;
    
     constructor(page: Page) {
         super(page);
@@ -16,7 +17,8 @@ export class HomePage extends BasePage {
         this.Footer = page.locator('footer');
         this.subscriptionEmailField = page.locator('#susbscribe_email');
         this.subscriptionButton = page.locator('#subscribe');
-
+        this.productsButton = page.getByRole('link', { name: 'Products' });
+        this.cartButton = page.getByRole('link', { name: 'Cart' });
     }
 
 async verifyHomePage(){
@@ -51,5 +53,9 @@ async verifySubscriptionSuccessMessage(): Promise<void> {
 async clickProductsButton(): Promise<void> {
     this.productsButton = this.page.getByRole('link', { name: 'Products' });
     await this.productsButton.click();
+  }
+async clickCartButton(): Promise<void> {
+    this.cartButton = this.page.getByRole('link', { name: 'Cart' });
+    await this.cartButton.click();
   }
 }
