@@ -17,6 +17,7 @@ export class BasePage {
         this.subscriptionEmailField = page.locator('#susbscribe_email');
         this.arrowButton = page.locator('#subscribe');
         this.successMessage = page.locator('div[class="alert-success alert"]');
+        this.brandLocator = page.locator('a[class="navbar-brand"]');
     }
 
     async clickOnNavLink(linkText: string): Promise<void> {
@@ -31,6 +32,8 @@ export class BasePage {
         await this.arrowButton.click();
         await expect(this.successMessage).toBeVisible();
     }
+    
     async clickOnBrand(): Promise<void> {
-
+        await this.brandLocator.click();
+    }
 }

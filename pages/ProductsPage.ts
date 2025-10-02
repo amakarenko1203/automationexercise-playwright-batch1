@@ -11,6 +11,7 @@ export class ProductsPage extends BasePage {
   private allProductsPage: Locator;
   private searchedProducts: Locator;
   private viewFirstProductButton: Locator;
+  private clickOnFirstViewProductButton: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -22,7 +23,8 @@ export class ProductsPage extends BasePage {
         this.productNames = page.locator('.productinfo.text-center p');
         this.allProductsPage = page.getByRole('heading', { name: 'All Products' })
         this.searchedProducts = page.locator('.features_items');
-        this.viewFirstProductButton = page.locator('.nav.nav-pills.nav-justified > li > a').first()
+        this.viewFirstProductButton = page.locator('.nav.nav-pills.nav-justified > li > a').first();
+        this.clickOnFirstViewProductButton = page.locator('.nav.nav-pills.nav-justified > li > a').first();
 
     }
     async isAllProductsTitleVisible(): Promise<void> {
@@ -55,5 +57,8 @@ export class ProductsPage extends BasePage {
     }
     async clickViewFirstProductButton(): Promise<void> {
         await this.viewFirstProductButton.click();
+    }
+    async clickOnFirstViewProduct(): Promise<void> {
+        await this.clickOnFirstViewProductButton.click();
     }
 }
