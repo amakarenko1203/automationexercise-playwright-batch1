@@ -7,7 +7,6 @@ export class BasePage {
     private subscriptionEmailField: Locator;
     private arrowButton: Locator;
     private successMessage: Locator;
-    private brandLocator: Locator;
     
 
     constructor(page: Page) {
@@ -31,6 +30,4 @@ export class BasePage {
         await this.arrowButton.click();
         await expect(this.successMessage).toBeVisible();
     }
-    async clickOnBrand(): Promise<void> {
-
 }
