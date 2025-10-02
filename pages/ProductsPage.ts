@@ -11,7 +11,6 @@ export class ProductsPage extends BasePage {
   private allProductsPage: Locator;
   private searchedProducts: Locator;
   private viewFirstProductButton: Locator;
-  private firstViewProductButton: Locator;
   private clickOnFirstViewProductButton: Locator;
 
     constructor(page: Page) {
