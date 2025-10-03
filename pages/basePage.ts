@@ -32,5 +32,6 @@ export class BasePage {
         await expect(this.successMessage).toBeVisible();
     }
     async clickOnBrand(): Promise<void> {
-
+      
+    }
 }

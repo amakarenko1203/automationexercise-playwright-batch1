@@ -2,28 +2,51 @@ import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from './basePage';
 
 export class LoginSignUpPage extends BasePage {
-  private signUpTitle: Locator;
-  private readonly expectedSignUpTitleText = 'New User Signup!';
+
+
   private nameField: Locator;
   private emailField: Locator;
-  private signUpButton: Locator;
+
+
+  private loginTitle: Locator;
+  private loginEmailField: Locator;
+  private loginPasswordField: Locator;
+  private loginButton: Locator;
+  private loginErrorMessage: Locator;
 
   constructor(page: Page) {
     super(page);
-    this.signUpTitle = page.getByRole('heading', { name: this.expectedSignUpTitleText });
     this.nameField = page.getByRole('textbox', { name: 'Name' });
     this.emailField = page.getByRole('textbox', { name: 'Email' });
-    this.signUpButton = page.getByRole('button', { name: 'Signup' });
+
+
+    this.loginTitle = page.getByRole('heading', { name: 'Login to your account' });
+    this.loginEmailField = page.locator('[data-qa="login-email"]');
+    this.loginPasswordField = page.locator('[data-qa="login-password"]');
+    this.loginButton = page.locator('[data-qa="login-button"]');
+    this.loginErrorMessage = page.locator('.login-form p[style*="color: red"]');
   }
 
-  async validateSignUpTitle(): Promise<void> {
-     expect(this.signUpTitle).toBeVisible();
-     expect(this.signUpTitle).toHaveText(this.expectedSignUpTitleText);
+  async isLoginTitleVisible(): Promise<void> {
+    await expect(this.loginTitle).toBeVisible();
+  }
+  async verifyLoginTitleText(): Promise<void> {
+    await expect(this.loginTitle).toHaveText('Login to your account');
+  }
+  async fillLoginEmail(email: string): Promise<void> {
+    await this.loginEmailField.fill(email);
   }
 
-async signUpWithNameAndEmail(name: string, email: string): Promise<void> {
-    await this.nameField.fill(name);
-    await this.emailField.fill(email);
-    await this.signUpButton.click();
+  async fillLoginPassword(password: string): Promise<void> {
+    await this.loginPasswordField.fill(password);
+  }
+  async clickLoginButton(): Promise<void> {
+    await this.loginButton.click();
+  }
+  async isLoginErrorMessageVisible(): Promise<void> {
+    await expect(this.loginErrorMessage).toBeVisible();
+  }
+  async verifyLoginErrorMessageText(): Promise<void> {
+    await expect(this.loginErrorMessage).toContainText('Your email or password is incorrect!');
   }
 }
