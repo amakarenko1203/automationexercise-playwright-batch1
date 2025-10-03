@@ -1,36 +1,33 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { HomePage } from '../../pages/homePage';
 import { LoginSignUpPage } from '../../pages/loginSignUpPage';
 
-test.describe('Successful Login and Logout Test Case', () => {
+test.describe('Login with valid credentials Test', () => {
     let homePage: HomePage;
     let loginSignUpPage: LoginSignUpPage;
 
     test.beforeEach(async ({ page }) => {
+
         homePage = new HomePage(page);
         loginSignUpPage = new LoginSignUpPage(page);
-        const url = process.env.baseURL;
-        await page.goto(url!);
+        await page.goto(process.env.baseURL!);
         await homePage.verifyHomePage();
         await homePage.clickOnNavLink('Signup / Login');
-    });
-
-    test('Verify successful login', async ({ page }) => {
         await loginSignUpPage.isLoginTitleVisible();
         await loginSignUpPage.verifyLoginTitleText();
-        await loginSignUpPage.fillLoginEmail('johndeli@gmail.com');
-        await loginSignUpPage.fillLoginPassword('johndeli!');
+        await loginSignUpPage.fillLoginEmail(process.env.username!);
+        await loginSignUpPage.fillLoginPassword(process.env.password!);
         await loginSignUpPage.clickLoginButton();
+    });
+
+    test('Login with valid credentials and verify success message', async ({ page }) => {
+
         await loginSignUpPage.isLoggedInTextVisible();
         await loginSignUpPage.verifyLoggedInAsUsernameText();
     });
 
-    test('Verify successful login and logout flow', async ({ page }) => {
-        await loginSignUpPage.isLoginTitleVisible();
-        await loginSignUpPage.verifyLoginTitleText();
-        await loginSignUpPage.fillLoginEmail('johndeli@gmail.com');
-        await loginSignUpPage.fillLoginPassword('johndeli!');
-        await loginSignUpPage.clickLoginButton();
+    test('Verify successful login and logout', async ({ page }) => {
+        
         await loginSignUpPage.isLoggedInTextVisible();
         await loginSignUpPage.verifyLoggedInAsUsernameText();
         await loginSignUpPage.clickLogoutButton();
