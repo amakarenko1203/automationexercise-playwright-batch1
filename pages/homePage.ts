@@ -11,6 +11,7 @@ export class HomePage extends BasePage {
     private categoriesSection: Locator;
     private womenCategory: Locator;
     private menCategory: Locator;
+    
 
     constructor(page: Page) {
         super(page);
@@ -47,7 +48,6 @@ async subscribeToNewsletter(email: string): Promise<void> {
   }
 
 async verifySubscriptionSuccessMessage(): Promise<void> {
-    // Wait for dynamic content to appear after form submission
     const successMessage = this.page.locator('#success-subscribe');
     await successMessage.waitFor({ state: 'visible', timeout: 10000 });
     await expect(successMessage).toBeVisible();
@@ -87,4 +87,11 @@ async clickCartButton(): Promise<void> {
   async clickMenSubCategory(subCategory: string): Promise<void> {
     await this.page.locator(`a[href="/category_products/3"]`).click(); 
   }
+  async clickViewProductForFirstProduct() {
+        await this.page.click('css=[data-test="product-list"] .product-item:first-child .view-product-btn');
+    }
+    async clickViewProductForFirstProduct(): Promise<void> {
+        const firstProduct = this.page.locator('.features_items .product-image-wrapper').first();
+        await firstProduct.locator('a[href*="/product_details/"]').click();
+    }
 }
