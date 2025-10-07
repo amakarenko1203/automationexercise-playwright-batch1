@@ -1,30 +1,40 @@
-import {test} from '@playwright/test';
+import { test } from '@playwright/test';
 import { HomePage } from '../../pages/homePage';
 import { ProductsDetailPage } from '../../pages/productsDetailPage';
-import { ProductsPage } from '../../pages/productsPage';
+import { CartPage } from '../../pages/cartPage';
 
-test.describe('View Product Details', () => {
+test.describe('Add Product with Specific Quantity Test', () => {
     let homePage: HomePage;
-    let productsPage: ProductsPage;
     let productsDetailPage: ProductsDetailPage;
+    let cartPage: CartPage;
+    const baseUrl = process.env.baseURL!;
 
-    test.beforeEach('Setting up preconditions', async ({ page }) => {
+    test.beforeEach(async ({ page }) => {
+        // Steps 1-3: Launch browser, navigate and verify home page
         homePage = new HomePage(page);
-        productsPage = new ProductsPage(page);
         productsDetailPage = new ProductsDetailPage(page);
-        const url = process.env.baseURL;
-        await page.goto(url!);
+        cartPage = new CartPage(page);
+        
+        await page.goto(baseUrl);
         await homePage.verifyHomePage();
-        await homePage.clickProductsButton();
-        await productsPage.verifyAllProductsPage();
-        await productsPage.clickViewFirstProductButton();
-        await productsDetailPage.isProductNameVisible();
-        await productsDetailPage.isProductCategoryVisible();
-        await productsDetailPage.isProductPriceVisible();
-        await productsDetailPage.isProductAvailabilityVisible();
-        await productsDetailPage.isProductConditionVisible();
-        await productsDetailPage.isProductBrandVisible();
+    });
+
+    test('Add product with quantity 4 to cart and verify', async ({ page }) => {
+        const quantity = 4;
+    
+        await homePage.clickViewProductForFirstProduct();
+        await productsDetailPage.verifyProductDetailPage();
+        await productsDetailPage.fillQuantityInput(quantity);
+        await productsDetailPage.verifyQuantityValue(quantity);
+        await productsDetailPage.clickAddToCartButton();
+        await productsDetailPage.verifyAddedToCartModal();
+        await productsDetailPage.clickViewCartFromModal();
+        await cartPage.verifyCartPageVisible();
+        await cartPage.verifyCartPageTitle();
+        await cartPage.verifyProductsInCart();
+        await cartPage.verifyProductQuantity(quantity);
     });
 });
 
-    
+
+
